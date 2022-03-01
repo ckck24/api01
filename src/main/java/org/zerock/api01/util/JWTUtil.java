@@ -41,9 +41,9 @@ public class JWTUtil {
                 .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
 
                 //임시로 빨리 만료되는 토큰을 생성하기 위함
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(days * 5).toInstant()))
+                //.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(days * 5).toInstant()))
 
-                //.setExpiration(Date.from(ZonedDateTime.now().plusDays(days).toInstant()))
+                .setExpiration(Date.from(ZonedDateTime.now().plusDays(days).toInstant()))
                 .signWith(SignatureAlgorithm.HS256, key.getBytes())
                 .compact();
 
