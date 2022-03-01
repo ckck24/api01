@@ -1,6 +1,7 @@
 package org.zerock.api01.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,10 +10,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoRegisterDTO {
+public class TodoDTO {
+
+    private Long tno;
 
     private String title;
 

@@ -3,17 +3,18 @@ package org.zerock.api01.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zerock.api01.dto.TodoRegisterDTO;
+import org.zerock.api01.dto.TodoDTO;
+import org.zerock.api01.service.TodoService;
 import org.zerock.api01.util.LocalUploader;
 import org.zerock.api01.util.S3Uploader;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,9 +25,10 @@ public class TodoController {
 
     private final LocalUploader localUploader;
     private final S3Uploader s3Uploader;
+    private final TodoService todoService;
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> register(TodoRegisterDTO todoRegisterDTO){
+    public Map<String, Long> register(TodoDTO todoRegisterDTO){
 
         log.info("todo register todo....");
         log.info(todoRegisterDTO);
@@ -50,13 +52,50 @@ public class TodoController {
 
             todoRegisterDTO.setS3FilePath(s3UploadPaths);
 
+        }//end if
 
+        Long tno = todoService.register(todoRegisterDTO);
+
+
+        return Map.of("tno", tno);
+    }
+
+    @GetMapping(value = "/{tno}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TodoDTO read(@PathVariable("tno") Long tno ){
+
+        TodoDTO todoDTO = todoService.read(tno);
+
+        return todoDTO;
+    }
+
+
+    @DeleteMapping(value = "/{tno}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> remove(@PathVariable("tno") Long tno){
+
+
+        Optional<List<String>> fileLinks = todoService.getFileLinks(tno);
+
+        //데이터베이스 먼저 삭제
+        todoService.remove(tno);
+
+        //S3내 파일들 삭제
+        if(fileLinks.isPresent()){
+            fileLinks.get().forEach(fileLink -> {
+
+                try {
+                    String utfName = URLDecoder.decode(fileLink,"UTF-8");
+                    log.info(utfName);
+                    s3Uploader.removeS3File(utfName);
+                }catch(Exception e){
+
+                }
+
+            });
         }
 
 
-
-
-        return Map.of("tno", 123L);
+        return null;
     }
+
 
 }
