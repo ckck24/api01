@@ -19,9 +19,9 @@ public class TodoRepositoryTests {
     @Test
     public void testQuerydsl() {
 
-        Pageable pageable = PageRequest.of(0,10, Sort.by("tno").descending());
-
-        todoRepository.getList(pageable);
+//        Pageable pageable = PageRequest.of(0,10, Sort.by("tno").descending());
+//
+//        todoRepository.getList(pageable);
 
     }
 

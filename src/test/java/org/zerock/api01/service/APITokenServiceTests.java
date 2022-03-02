@@ -22,18 +22,18 @@ public class APITokenServiceTests {
     @Test
     public void testRefresh() {
 
-        //100분의 유효시간
-        String refreshToken = jwtUtil.generateToken(Map.of("mid","apiuser1"),1);
-
-        log.info("-----------------------------");
-        log.info(refreshToken);
-
-        APITokenDTO apiTokenDTO = tokenService.refreshTokens(refreshToken);
-
-        //만료일이 1시간이 남지 않으면
-        log.info(apiTokenDTO);
-        //RefreshToken은 갱신되지 않음
-        log.info(apiTokenDTO.getRefresh().equals(refreshToken));
+//        //100분의 유효시간
+//        String refreshToken = jwtUtil.generateToken(Map.of("mid","apiuser1"),1);
+//
+//        log.info("-----------------------------");
+//        log.info(refreshToken);
+//
+//        APITokenDTO apiTokenDTO = tokenService.refreshTokens(refreshToken);
+//
+//        //만료일이 1시간이 남지 않으면
+//        log.info(apiTokenDTO);
+//        //RefreshToken은 갱신되지 않음
+//        log.info(apiTokenDTO.getRefresh().equals(refreshToken));
     }
 
 }

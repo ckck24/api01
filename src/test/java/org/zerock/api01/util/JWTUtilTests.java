@@ -17,11 +17,11 @@ public class JWTUtilTests {
     @Test
     public void testGenerate() {
 
-        Map<String, Object> claimMap = Map.of("mid","apiuser1");
-
-        String jwtStr = jwtUtil.generateToken(claimMap,1);
-
-        log.info(jwtStr);
+//        Map<String, Object> claimMap = Map.of("mid","apiuser1");
+//
+//        String jwtStr = jwtUtil.generateToken(claimMap,1);
+//
+//        log.info(jwtStr);
     }
 
     @Test
@@ -39,13 +39,13 @@ public class JWTUtilTests {
     @Test
     public void testAll() {
 
-        String jwtStr = jwtUtil.generateToken(Map.of("mid","AAAA","email","aaaa@bbb.com"),1);
-
-        Map<String, Object> claim = jwtUtil.validateToken(jwtStr);
-
-        log.info("MID: " + claim.get("mid"));
-
-        log.info("EMAIL: " + claim.get("email"));
+//        String jwtStr = jwtUtil.generateToken(Map.of("mid","AAAA","email","aaaa@bbb.com"),1);
+//
+//        Map<String, Object> claim = jwtUtil.validateToken(jwtStr);
+//
+//        log.info("MID: " + claim.get("mid"));
+//
+//        log.info("EMAIL: " + claim.get("email"));
 
     }
 

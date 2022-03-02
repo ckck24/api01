@@ -14,9 +14,9 @@ public class S3UtilTests {
     @Test
     public void testDelteFile(){
 
-        String fileName = "6b0b91ae-8f08-49d7-accd-92f641f8f2e2_009.jpeg";
-
-        s3Uploader.removeS3File(fileName);
+//        String fileName = "6b0b91ae-8f08-49d7-accd-92f641f8f2e2_009.jpeg";
+//
+//        s3Uploader.removeS3File(fileName);
 
     }
 
