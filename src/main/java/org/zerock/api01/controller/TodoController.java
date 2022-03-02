@@ -5,6 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.api01.dto.PageRequestDTO;
+import org.zerock.api01.dto.PageResponseDTO;
 import org.zerock.api01.dto.TodoDTO;
 import org.zerock.api01.service.TodoService;
 import org.zerock.api01.util.LocalUploader;
@@ -97,5 +99,14 @@ public class TodoController {
         return null;
     }
 
+
+    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO){
+
+        log.info("------------------------------------");
+        log.info(pageRequestDTO);
+
+        return todoService.getList(pageRequestDTO);
+    }
 
 }

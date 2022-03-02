@@ -2,8 +2,12 @@ package org.zerock.api01.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.zerock.api01.domain.Todo;
+import org.zerock.api01.dto.PageRequestDTO;
+import org.zerock.api01.dto.PageResponseDTO;
 import org.zerock.api01.dto.TodoDTO;
 import org.zerock.api01.repository.TodoRepository;
 
@@ -75,6 +79,20 @@ public class TodoServiceImpl implements  TodoService{
         todoRepository.deleteById(tno);
 
 
+    }
+
+    @Override
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        Pageable pageable = pageRequestDTO.getPageable("tno");
+
+        Page<TodoDTO> result = todoRepository.getList(pageable);
+
+        return PageResponseDTO.<TodoDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
+                .build();
     }
 }
 

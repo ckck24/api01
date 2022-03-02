@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -27,6 +28,10 @@ public class TodoDTO {
     private MultipartFile[] files;
 
     private List<String> s3FilePath;
+
+    private LocalDateTime regDate;
+
+    private String frontImage;
 
 
 }
