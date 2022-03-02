@@ -109,4 +109,66 @@ public class TodoController {
         return todoService.getList(pageRequestDTO);
     }
 
+    @PutMapping(value ="/{tno}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> modify(@PathVariable("tno") Long tno, TodoDTO todoDTO){
+
+        log.info("modify.........tno: " + tno);
+
+        todoDTO.setTno(tno);
+
+        Optional<List<String>> fileLinks = todoService.getFileLinks(tno);
+
+        //S3내 파일들 삭제
+        if(fileLinks.isPresent()){
+            fileLinks.get().forEach(fileLink -> {
+
+                try {
+                    String utfName = URLDecoder.decode(fileLink,"UTF-8");
+                    log.info(utfName);
+                    s3Uploader.removeS3File(utfName);
+                }catch(Exception e){
+                    log.error(e.getMessage());
+                }
+            });
+        }
+
+        //수정된 새로운 파일들 추가
+        MultipartFile[] files = todoDTO.getFiles();
+
+        if(files != null && files.length > 0){
+
+            List<String> uploadFilesPath = new ArrayList<>();
+
+            //local upload alll
+            for (MultipartFile file:files) {
+                log.info(files);
+                uploadFilesPath.addAll(localUploader.uploadLocal(file));
+            }
+
+            //s3 upload
+            List<String> s3UploadPaths = uploadFilesPath.stream().map(filePath -> s3Uploader.upload(filePath)).collect(Collectors.toList());
+
+            log.info(s3UploadPaths);
+
+            todoDTO.setS3FilePath(s3UploadPaths);
+
+        }//end if
+
+        return null;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
