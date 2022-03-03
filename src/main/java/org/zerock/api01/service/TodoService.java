@@ -23,6 +23,8 @@ public interface TodoService {
 
     PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
+    void modify(TodoDTO todoDTO);
+
 
     default TodoDTO entityToDTO(Todo todo){
         TodoDTO todoDTO = TodoDTO.builder()

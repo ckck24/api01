@@ -94,6 +94,29 @@ public class TodoServiceImpl implements  TodoService{
                 .total((int)result.getTotalElements())
                 .build();
     }
+
+    @Override
+    public void modify(TodoDTO todoModifyDTO) {
+
+        Optional<Todo> result = todoRepository.getWithFiles(todoModifyDTO.getTno());
+
+        Todo todo = result.orElseThrow();
+
+        todo.changeTitle(todoModifyDTO.getTitle());
+        todo.changeDueDate(todoModifyDTO.getDueDate());
+
+        todo.clearFiles();
+
+        List<String> s3FileLinks = todoModifyDTO.getS3FilePath();
+
+        if(s3FileLinks != null && s3FileLinks.size() > 0){
+
+            s3FileLinks.forEach(fileLink -> todo.addFile(fileLink));
+
+        }
+
+        todoRepository.save(todo);
+    }
 }
 
 

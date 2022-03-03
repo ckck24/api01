@@ -154,6 +154,10 @@ public class TodoController {
 
         }//end if
 
+
+        todoService.modify(todoDTO);
+
+
         return null;
     }
 

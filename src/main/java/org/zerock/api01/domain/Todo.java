@@ -34,6 +34,10 @@ public class Todo extends BaseEntity{
         this.title = title;
     }
 
+    public void changeDueDate(LocalDate dueDate){
+        this.dueDate = dueDate;
+    }
+
     public void addFile(String fileLink){
 
         TodoFile todoFile = TodoFile.builder()
